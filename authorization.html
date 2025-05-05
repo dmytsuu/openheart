@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treatment Authorization</title>
+    <title data-i18n="authorizationRequired">Treatment Authorization</title>
+    <link rel="stylesheet" href="language-switcher.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -178,56 +179,57 @@
 <body>
     <div class="page-container">
         <header>
-            <h1>🔐 Authorization Required</h1>
-            <p>Patient ID: <strong id="patientId">PAT-1234</strong> | Name: <strong id="patientName">John Doe</strong> | Age: <strong id="patientAge">65</strong></p>
-            <p>Selected Diagnosis: <strong id="authDiagnosis">-</strong></p>
+            <h1 data-i18n="authorizationRequired">🔐 Authorization Required</h1>
+            <p><span data-i18n="patientId">Patient ID</span>: <strong id="patientId">PAT-1234</strong> | <span data-i18n="patientName">Name</span>: <strong id="patientName">John Doe</strong> | <span data-i18n="patientAge">Age</span>: <strong id="patientAge">65</strong></p>
+            <p><span data-i18n="selectedDiagnosis">Selected Diagnosis</span>: <strong id="authDiagnosis">-</strong></p>
         </header>
         
         <div class="section">
-            <h2>Treatment Summary</h2>
+            <h2 data-i18n="treatmentSummary">Treatment Summary</h2>
             <div class="summary-container">
-                <div class="summary-title">Selected Medications and Treatment</div>
+                <div class="summary-title" data-i18n="selectedMedicationsAndTreatment">Selected Medications and Treatment</div>
                 <div id="medicationsSummary">
                     <!-- Summary will be populated by JavaScript -->
                 </div>
             </div>
             
-            <h2>Confirm Your Identity</h2>
-            <p>To proceed with the selected treatments, please confirm your identity:</p>
+            <h2 data-i18n="confirmIdentity">Confirm Your Identity</h2>
+            <p data-i18n="proceedWithTreatments">To proceed with the selected treatments, please confirm your identity:</p>
             
             <form id="authForm" class="auth-form">
                 <div class="medication-form-group">
-                    <label class="medication-label">Doctor ID:</label>
-                    <input type="text" class="auth-input" name="doctor-id" placeholder="Enter your ID number" required>
+                    <label class="medication-label" data-i18n="doctorId">Doctor ID:</label>
+                    <input type="text" class="auth-input" name="doctor-id" placeholder="Enter your ID number" data-i18n="doctorIdPlaceholder" required>
                 </div>
                 
                 <div class="medication-form-group">
-                    <label class="medication-label">Password:</label>
-                    <input type="password" class="auth-input" name="password" placeholder="Enter your password" required>
+                    <label class="medication-label" data-i18n="password">Password:</label>
+                    <input type="password" class="auth-input" name="password" placeholder="Enter your password" data-i18n="passwordPlaceholder" required>
                 </div>
                 
                 <div class="medication-form-group">
-                    <label class="medication-label">Confirm Operation Room:</label>
+                    <label class="medication-label" data-i18n="confirmOperationRoom">Confirm Operation Room:</label>
                     <select class="medication-select" name="final-room" required>
-                        <option value="">-- Select Operation Room --</option>
-                        <option value="OR1">Operation Room 1</option>
-                        <option value="OR2">Operation Room 2</option>
-                        <option value="OR3">Operation Room 3</option>
-                        <option value="ICU">Intensive Care Unit</option>
+                        <option value="" data-i18n="selectOperationRoom">-- Select Operation Room --</option>
+                        <option value="OR1" data-i18n="operationRoom1">Operation Room 1</option>
+                        <option value="OR2" data-i18n="operationRoom2">Operation Room 2</option>
+                        <option value="OR3" data-i18n="operationRoom3">Operation Room 3</option>
+                        <option value="ICU" data-i18n="icu">Intensive Care Unit</option>
                     </select>
                 </div>
                 
-                <button type="submit" class="btn btn-success auth-btn">Confirm and Proceed to Operation</button>
+                <button type="submit" class="btn btn-success auth-btn" data-i18n="confirmProceedOperation">Confirm and Proceed to Operation</button>
                 
-                <p class="auth-disclaimer">By confirming, you acknowledge that you've reviewed all selected treatments and accept responsibility for this medical decision.</p>
+                <p class="auth-disclaimer" data-i18n="byConfirming">By confirming, you acknowledge that you've reviewed all selected treatments and accept responsibility for this medical decision.</p>
             </form>
             
             <div class="nav-buttons">
-                <a href="medications.html" class="btn btn-secondary">Back to Treatments</a>
+                <a href="medications.html" class="btn btn-secondary" data-i18n="backToTreatments">Back to Treatments</a>
             </div>
         </div>
     </div>
 
+    <script src="translations.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Load patient and diagnosis info
@@ -236,7 +238,7 @@
                 document.getElementById('authDiagnosis').textContent = diagnosis;
             } else {
                 // If no diagnosis is found, redirect back to diagnosis page
-                alert('Please select a diagnosis first');
+                alert(getTranslation('diagnosisRequired'));
                 window.location.href = 'diagnosis.html';
                 return;
             }
@@ -244,31 +246,54 @@
             // Load medications data
             const medicationsJSON = localStorage.getItem('selectedMedications');
             if (!medicationsJSON) {
-                alert('Please select medications first');
+                alert(getTranslation('atLeastOneMedication'));
                 window.location.href = 'medications.html';
                 return;
             }
             
-            const medications = JSON.parse(medicationsJSON);
+            const medicationsData = JSON.parse(medicationsJSON);
+            const medicationsSummaryElement = document.getElementById('medicationsSummary');
             
-            // Display medications summary
-            const summaryContainer = document.getElementById('medicationsSummary');
-            medications.forEach(med => {
-                const medElement = document.createElement('div');
-                medElement.className = 'summary-item';
+            // Display each selected medication
+            medicationsData.forEach(medication => {
+                const medicationElement = document.createElement('div');
+                medicationElement.className = 'summary-item';
                 
-                let deliveryText = med.delivery === 'tube' ? 'Automated Tube Delivery' : 'By Nurse';
-                let instructionsText = med.instructions ? `<br>Instructions: ${med.instructions}` : '';
+                // Determine room name based on room code
+                let roomName = '';
+                switch (medication.room) {
+                    case 'OR1': 
+                        roomName = getTranslation('operationRoom1');
+                        break;
+                    case 'OR2': 
+                        roomName = getTranslation('operationRoom2');
+                        break;
+                    case 'OR3': 
+                        roomName = getTranslation('operationRoom3');
+                        break;
+                    case 'ICU': 
+                        roomName = getTranslation('icu');
+                        break;
+                    default: 
+                        roomName = medication.room;
+                }
                 
-                medElement.innerHTML = `
-                    <strong>${med.name}</strong> - To be delivered to <strong>${med.room}</strong> via ${deliveryText}
-                    ${instructionsText}
+                // Determine delivery method
+                const deliveryMethod = medication.delivery === 'tube' 
+                    ? getTranslation('automatedTube') 
+                    : getTranslation('byNurse');
+                
+                medicationElement.innerHTML = `
+                    <strong>${medication.name}</strong><br>
+                    ${getTranslation('deliveryMethod')}: ${deliveryMethod}<br>
+                    ${getTranslation('targetRoom')}: ${roomName}<br>
+                    ${medication.instructions ? `${getTranslation('extraInstructions')}: ${medication.instructions}` : ''}
                 `;
                 
-                summaryContainer.appendChild(medElement);
+                medicationsSummaryElement.appendChild(medicationElement);
             });
             
-            // Load patient info if available
+            // Load patient info
             const patientId = localStorage.getItem('patientId');
             const patientName = localStorage.getItem('patientName');
             const patientAge = localStorage.getItem('patientAge');
@@ -276,23 +301,18 @@
             if (patientId) document.getElementById('patientId').textContent = patientId;
             if (patientName) document.getElementById('patientName').textContent = patientName;
             if (patientAge) document.getElementById('patientAge').textContent = patientAge;
-        });
-        
-        // Handle form submission
-        document.getElementById('authForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent actual form submission
             
-            // In a real app, you would validate credentials here
-            
-            // Show confirmation
-            alert('Operation authorization confirmed! Proceeding to prepare the patient for treatment.');
-            
-            // Clear stored data
-            localStorage.removeItem('selectedDiagnosis');
-            localStorage.removeItem('selectedMedications');
-            
-            // Return to dashboard
-            window.location.href = 'index.html';
+            // Handle form submission
+            document.getElementById('authForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // In a real application, we would validate credentials here
+                // For demo purposes, we'll just show a success message
+                alert(getTranslation('authorizationSuccessful'));
+                
+                // Redirect to dashboard or operation page
+                window.location.href = 'index.html';
+            });
         });
     </script>
 </body>

@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Diagnosis Selection</title>
+    <title data-i18n="proposedDiagnoses">Patient Diagnosis Selection</title>
+    <link rel="stylesheet" href="language-switcher.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -138,63 +139,64 @@
 <body>
     <div class="page-container">
         <header>
-            <h1>🧠 Proposed Diagnoses</h1>
-            <p>Patient ID: <strong id="patientId">PAT-1234</strong> | Name: <strong id="patientName">John Doe</strong> | Age: <strong id="patientAge">65</strong></p>
+            <h1 data-i18n="proposedDiagnoses">🧠 Proposed Diagnoses</h1>
+            <p><span data-i18n="patientId">Patient ID</span>: <strong id="patientId">PAT-1234</strong> | <span data-i18n="patientName">Name</span>: <strong id="patientName">John Doe</strong> | <span data-i18n="patientAge">Age</span>: <strong id="patientAge">65</strong></p>
         </header>
 
         <div class="section">
-            <h2>Select the Most Likely Diagnosis</h2>
-            <p>AI-assisted analysis has identified the following potential diagnoses based on patient data:</p>
+            <h2 data-i18n="selectDiagnosis">Select the Most Likely Diagnosis</h2>
+            <p data-i18n="aiAssistedAnalysis">AI-assisted analysis has identified the following potential diagnoses based on patient data:</p>
             
             <form id="diagnosisForm">
                 <div class="diagnosis-option">
                     <input type="radio" id="diagnosis1" name="diagnosis" value="Arrhythmia">
                     <div class="diagnosis-info">
-                        <div class="diagnosis-name">Arrhythmia <span class="diagnosis-confidence">92% confidence</span></div>
-                        <div class="diagnosis-description">Abnormal heart rhythm characterized by irregular heartbeats. Patient's ECG shows pattern consistent with ventricular arrhythmia.</div>
+                        <div class="diagnosis-name"><span data-i18n="arrhythmia">Arrhythmia</span> <span class="diagnosis-confidence">92% <span data-i18n="confidence">confidence</span></span></div>
+                        <div class="diagnosis-description" data-i18n="arrhythmiaDesc">Abnormal heart rhythm characterized by irregular heartbeats. Patient's ECG shows pattern consistent with ventricular arrhythmia.</div>
                     </div>
                 </div>
                 
                 <div class="diagnosis-option">
                     <input type="radio" id="diagnosis2" name="diagnosis" value="Ischemic heart disease">
                     <div class="diagnosis-info">
-                        <div class="diagnosis-name">Ischemic heart disease <span class="diagnosis-confidence">78% confidence</span></div>
-                        <div class="diagnosis-description">Reduced blood flow to the heart muscle. The patient's vital signs and ECG pattern suggest reduced oxygen delivery to cardiac tissue.</div>
+                        <div class="diagnosis-name"><span data-i18n="ischemicHeartDisease">Ischemic heart disease</span> <span class="diagnosis-confidence">78% <span data-i18n="confidence">confidence</span></span></div>
+                        <div class="diagnosis-description" data-i18n="ischemicHeartDiseaseDesc">Reduced blood flow to the heart muscle. The patient's vital signs and ECG pattern suggest reduced oxygen delivery to cardiac tissue.</div>
                     </div>
                 </div>
                 
                 <div class="diagnosis-option">
                     <input type="radio" id="diagnosis3" name="diagnosis" value="Pericarditis">
                     <div class="diagnosis-info">
-                        <div class="diagnosis-name">Pericarditis <span class="diagnosis-confidence">65% confidence</span></div>
-                        <div class="diagnosis-description">Inflammation of the pericardium (the membrane surrounding the heart). Several indicators in vitals and patient history suggest this condition.</div>
+                        <div class="diagnosis-name"><span data-i18n="pericarditis">Pericarditis</span> <span class="diagnosis-confidence">65% <span data-i18n="confidence">confidence</span></span></div>
+                        <div class="diagnosis-description" data-i18n="pericarditisDesc">Inflammation of the pericardium (the membrane surrounding the heart). Several indicators in vitals and patient history suggest this condition.</div>
                     </div>
                 </div>
                 
                 <div class="diagnosis-option">
                     <input type="radio" id="diagnosis4" name="diagnosis" value="Heart valve defect">
                     <div class="diagnosis-info">
-                        <div class="diagnosis-name">Heart valve defect <span class="diagnosis-confidence">54% confidence</span></div>
-                        <div class="diagnosis-description">Malfunctioning heart valve causing improper blood flow. The unusual pattern in cardiac output may indicate valve-related issues.</div>
+                        <div class="diagnosis-name"><span data-i18n="heartValveDefect">Heart valve defect</span> <span class="diagnosis-confidence">54% <span data-i18n="confidence">confidence</span></span></div>
+                        <div class="diagnosis-description" data-i18n="heartValveDefectDesc">Malfunctioning heart valve causing improper blood flow. The unusual pattern in cardiac output may indicate valve-related issues.</div>
                     </div>
                 </div>
                 
                 <div class="diagnosis-option">
                     <input type="radio" id="diagnosis5" name="diagnosis" value="Congestive heart failure">
                     <div class="diagnosis-info">
-                        <div class="diagnosis-name">Congestive heart failure <span class="diagnosis-confidence">42% confidence</span></div>
-                        <div class="diagnosis-description">Heart unable to pump efficiently, causing fluid build-up. Some indicators present but not strongly supported by current data.</div>
+                        <div class="diagnosis-name"><span data-i18n="congestiveHeartFailure">Congestive heart failure</span> <span class="diagnosis-confidence">42% <span data-i18n="confidence">confidence</span></span></div>
+                        <div class="diagnosis-description" data-i18n="congestiveHeartFailureDesc">Heart unable to pump efficiently, causing fluid build-up. Some indicators present but not strongly supported by current data.</div>
                     </div>
                 </div>
             </form>
             
             <div class="nav-buttons">
-                <a href="index.html" class="btn btn-secondary">Back to Dashboard</a>
-                <button id="confirmDiagnosis" class="btn btn-primary">Confirm Diagnosis</button>
+                <a href="index.html" class="btn btn-secondary" data-i18n="backToDashboard">Back to Dashboard</a>
+                <button id="confirmDiagnosis" class="btn btn-primary" data-i18n="confirmDiagnosis">Confirm Diagnosis</button>
             </div>
         </div>
     </div>
 
+    <script src="translations.js"></script>
     <script>
         // Handle diagnosis confirmation and redirect to medications page
         document.getElementById('confirmDiagnosis').addEventListener('click', function() {
@@ -202,7 +204,7 @@
             const selectedDiagnosisInput = document.querySelector('input[name="diagnosis"]:checked');
             
             if (!selectedDiagnosisInput) {
-                alert('Please select a diagnosis before proceeding.');
+                alert(getTranslation('diagnosisRequired'));
                 return;
             }
             

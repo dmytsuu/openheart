@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heart Patient Monitoring Dashboard</title>
+    <title data-i18n="heartPatientMonitoringDashboard">Heart Patient Monitoring Dashboard</title>
+    <link rel="stylesheet" href="language-switcher.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -446,44 +447,55 @@
 </head>
 <body>
     <header>
-        <h1>Heart Patient Monitoring Dashboard</h1>
-        <p>Patient ID: <strong>PAT-1234</strong> | Name: <strong>John Doe</strong> | Age: <strong>65</strong></p>
-        <p>Location: <strong>Operating Room</strong></p>
-        <p id="last-updated">Last updated: <span>Loading...</span></p>
+        <h1 data-i18n="heartPatientMonitoringDashboard">Heart Patient Monitoring Dashboard</h1>
+        <p><span data-i18n="patientId">Patient ID</span>: <strong id="patientId">PAT-1234</strong> | <span data-i18n="patientName">Name</span>: <strong id="patientName">John Doe</strong> | <span data-i18n="patientAge">Age</span>: <strong id="patientAge">65</strong></p>
+        <p><span data-i18n="location">Location</span>: <strong data-i18n="operatingRoom">Operating Room</strong></p>
+        <p id="last-updated"><span data-i18n="lastUpdated">Last updated</span>: <span data-i18n="loading">Loading...</span></p>
     </header>
     
     <div class="dashboard">
         <!-- Cardiovascular Metrics -->
         <div class="section cardiovascular">
-            <h2>🔴 Cardiovascular Metrics</h2>
+            <h2 data-i18n="vitals">Vitals</h2>
             <div class="card-container">
-                <div class="card">
-                    <div class="metric-label">Heart Rate</div>
+                <div class="card cardiovascular">
+                    <div class="icon">❤️</div>
+                    <div class="metric-label" data-i18n="heartRate">Heart Rate</div>
                     <div class="metric-value" id="heart-rate">-- bpm</div>
-                    <div class="status status-normal">Normal</div>
+                    <div class="status status-normal" data-i18n="normal">Normal</div>
                 </div>
-                <div class="card">
-                    <div class="metric-label">HRV</div>
-                    <div class="metric-value" id="hrv">-- ms</div>
-                    <div class="status status-normal">Normal</div>
-                </div>
-                <div class="card">
-                    <div class="metric-label">Blood Pressure</div>
+                <div class="card cardiovascular">
+                    <div class="icon">🩸</div>
+                    <div class="metric-label" data-i18n="bloodPressure">Blood Pressure</div>
                     <div class="metric-value" id="blood-pressure">--/-- mmHg</div>
-                    <div class="status status-normal">Normal</div>
+                    <div class="status status-normal" data-i18n="normal">Normal</div>
                 </div>
-                <div class="card">
-                    <div class="metric-label">SpO₂</div>
+                <div class="card biometric">
+                    <div class="icon">💨</div>
+                    <div class="metric-label" data-i18n="oxygenSaturation">SpO₂</div>
                     <div class="metric-value" id="oxygen">--%</div>
-                    <div class="status status-normal">Normal</div>
+                    <div class="status status-normal" data-i18n="normal">Normal</div>
                 </div>
-                <div class="card">
-                    <div class="metric-label">Respiratory Rate</div>
+                <div class="card biometric">
+                    <div class="icon">🌡️</div>
+                    <div class="metric-label" data-i18n="temperature">Temperature</div>
+                    <div class="metric-value" id="body-temp">-- °C</div>
+                    <div class="status status-normal" data-i18n="normal">Normal</div>
+                </div>
+                <div class="card advanced">
+                    <div class="icon">🫁</div>
+                    <div class="metric-label" data-i18n="respiration">Respiratory Rate</div>
                     <div class="metric-value" id="resp-rate">-- bpm</div>
-                    <div class="status status-normal">Normal</div>
+                    <div class="status status-normal" data-i18n="normal">Normal</div>
+                </div>
+                <div class="card cardiovascular">
+                    <div class="icon">💓</div>
+                    <div class="metric-label" data-i18n="pulseRate">Pulse Rate</div>
+                    <div class="metric-value" id="pulse-rate">-- bpm</div>
+                    <div class="status status-normal" data-i18n="normal">Normal</div>
                 </div>
                 <div class="card" style="grid-column: span 2;">
-                    <div class="metric-label">ECG</div>
+                    <div class="metric-label" data-i18n="ecg">ECG</div>
                     <div class="ecg-chart">
                         <div class="ecg-line"></div>
                         <div class="ecg-wave"></div>
@@ -493,7 +505,7 @@
             
             <!-- Heart Rate History Chart -->
             <div class="full-width-chart">
-                <div class="chart-title">Heart Rate Trend</div>
+                <div class="chart-title" data-i18n="heartRateTrend">Heart Rate Trend</div>
                 <div class="chart-container" id="heart-rate-chart">
                     <div class="chart">
                         <div class="chart-grid">
@@ -511,7 +523,7 @@
             
             <!-- Blood Pressure History Chart -->
             <div class="full-width-chart">
-                <div class="chart-title">Blood Pressure Trend</div>
+                <div class="chart-title" data-i18n="bloodPressureTrend">Blood Pressure Trend</div>
                 <div class="chart-container" id="bp-chart">
                     <div class="chart">
                         <div class="chart-grid">
@@ -529,7 +541,7 @@
             
             <!-- SpO2 History Chart -->
             <div class="full-width-chart">
-                <div class="chart-title">Oxygen Saturation Trend</div>
+                <div class="chart-title" data-i18n="oxygenSaturationTrend">Oxygen Saturation Trend</div>
                 <div class="chart-container" id="spo2-chart">
                     <div class="chart">
                         <div class="chart-grid">
@@ -548,33 +560,34 @@
 
         <!-- Other Biometric Data -->
         <div class="section biometric">
-            <h2>🔵 Other Biometric Data</h2>
+            <h2 data-i18n="otherBiometricData">Other Biometric Data</h2>
             <div class="card-container">
-                <div class="card">
-                    <div class="metric-label">Body Temperature</div>
+                <div class="card biometric">
+                    <div class="icon">🌡️</div>
+                    <div class="metric-label" data-i18n="temperature">Temperature</div>
                     <div class="metric-value" id="body-temp">-- °C</div>
-                    <div class="status status-normal">Normal</div>
+                    <div class="status status-normal" data-i18n="normal">Normal</div>
                 </div>
                 <div class="card">
-                    <div class="metric-label">Weight</div>
-                    <div class="metric-value" id="weight">-- kg</div>
-                    <div class="status status-normal">Stable</div>
+                    <div class="metric-label" data-i18n="weight">Weight</div>
+                    <div class="metric-value" id="weight">-- <span data-i18n="kg">kg</span></div>
+                    <div class="status status-normal" data-i18n="stable">Stable</div>
                 </div>
                 <div class="card">
-                    <div class="metric-label">Blood Glucose</div>
-                    <div class="metric-value" id="glucose">-- mg/dL</div>
-                    <div class="status status-normal">Normal</div>
+                    <div class="metric-label" data-i18n="bloodGlucose">Blood Glucose</div>
+                    <div class="metric-value" id="glucose">-- <span data-i18n="mgDl">mg/dL</span></div>
+                    <div class="status status-normal" data-i18n="normal">Normal</div>
                 </div>
                 <div class="card">
-                    <div class="metric-label">Electrolyte Levels</div>
+                    <div class="metric-label" data-i18n="electrolyteLevels">Electrolyte Levels</div>
                     <div class="metric-value" id="electrolytes">--</div>
-                    <div class="status status-normal">Balanced</div>
+                    <div class="status status-normal" data-i18n="balanced">Balanced</div>
                 </div>
             </div>
             
             <!-- Temperature History Chart -->
             <div class="full-width-chart">
-                <div class="chart-title">Body Temperature Trend</div>
+                <div class="chart-title" data-i18n="bodyTempTrend">Body Temperature Trend</div>
                 <div class="chart-container" id="temp-chart">
                     <div class="chart">
                         <div class="chart-grid">
@@ -592,7 +605,7 @@
             
             <!-- Glucose History Chart -->
             <div class="full-width-chart">
-                <div class="chart-title">Blood Glucose Trend</div>
+                <div class="chart-title" data-i18n="glucoseTrend">Blood Glucose Trend</div>
                 <div class="chart-container" id="glucose-chart">
                     <div class="chart">
                         <div class="chart-grid">
@@ -611,28 +624,29 @@
 
         <!-- Advanced Metrics -->
         <div class="section advanced">
-            <h2>🟣 Advanced Metrics</h2>
+            <h2 data-i18n="advancedMetrics">Advanced Metrics</h2>
             <div class="card-container">
-                <div class="card">
-                    <div class="metric-label">Cardiac Output</div>
+                <div class="card advanced">
+                    <div class="icon">🫀</div>
+                    <div class="metric-label" data-i18n="cardiacOutput">Cardiac Output</div>
                     <div class="metric-value" id="cardiac-output">-- L/min</div>
-                    <div class="status status-normal">Normal</div>
+                    <div class="status status-normal" data-i18n="normal">Normal</div>
                 </div>
                 <div class="card">
-                    <div class="metric-label">Stress Index</div>
+                    <div class="metric-label" data-i18n="stressIndex">Stress Index</div>
                     <div class="metric-value" id="stress">--</div>
-                    <div class="status status-normal">Low</div>
+                    <div class="status status-normal" data-i18n="low">Low</div>
                 </div>
                 <div class="card">
-                    <div class="metric-label">Voice/Breath Analysis</div>
+                    <div class="metric-label" data-i18n="voiceBreathAnalysis">Voice/Breath Analysis</div>
                     <div class="metric-value" id="voice-breath">--</div>
-                    <div class="status status-normal">Normal</div>
+                    <div class="status status-normal" data-i18n="normal">Normal</div>
                 </div>
             </div>
             
             <!-- Cardiac Output Chart -->
             <div class="full-width-chart">
-                <div class="chart-title">Cardiac Output Trend</div>
+                <div class="chart-title" data-i18n="cardiacOutputTrend">Cardiac Output Trend</div>
                 <div class="chart-container" id="cardiac-chart">
                     <div class="chart">
                         <div class="chart-grid">
@@ -650,7 +664,7 @@
             
             <!-- Stress Index Chart -->
             <div class="full-width-chart">
-                <div class="chart-title">Stress Index Trend</div>
+                <div class="chart-title" data-i18n="stressIndexTrend">Stress Index Trend</div>
                 <div class="chart-container" id="stress-chart">
                     <div class="chart">
                         <div class="chart-grid">
@@ -670,9 +684,11 @@
 
     <!-- Next Button -->
     <div class="btn-container">
-        <a href="diagnosis.html" class="btn btn-primary" id="nextToDiagnosis">Next: Diagnose & Treat</a>
+        <a href="diagnosis.html" class="btn btn-primary" data-i18n="nextDiagnoseTreat">Next: Diagnose & Treat</a>
     </div>
 
+    <!-- Add translations.js BEFORE other scripts -->
+    <script src="translations.js"></script>
     <script>
         // Data arrays to store history for charts
         const dataPoints = 20; // Number of data points to display
@@ -853,9 +869,6 @@
             const heartRate = Math.floor(70 + Math.random() * 15);
             document.getElementById('heart-rate').textContent = heartRate + ' bpm';
             
-            const hrv = Math.floor(40 + Math.random() * 30);
-            document.getElementById('hrv').textContent = hrv + ' ms';
-            
             const systolic = Math.floor(110 + Math.random() * 20);
             const diastolic = Math.floor(70 + Math.random() * 10);
             document.getElementById('blood-pressure').textContent = systolic + '/' + diastolic + ' mmHg';
@@ -967,7 +980,7 @@
             drawLineChart('stress-canvas', stressHistory, 0, 100, 'rgba(231, 76, 60, 0.7)');
         });
 
-        // Initialize charts when the page loads
+        // Initialize everything when the page loads
         window.addEventListener('load', function() {
             initializeCharts();
             updateMockData(); // Initial data update
@@ -980,6 +993,15 @@
 
         // Update every 10 seconds
         setInterval(updateMockData, 10000);
+
+        // Make sure translation features are initialized
+        document.addEventListener('DOMContentLoaded', function() {
+            // This will ensure the language switcher appears and works
+            if (typeof addLanguageSwitcher === 'function') {
+                addLanguageSwitcher();
+                initializeLanguage();
+            }
+        });
     </script>
 </body>
 </html> 

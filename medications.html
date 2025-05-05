@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Treatment Selection</title>
+    <title data-i18n="proposedTreatments">Patient Treatment Selection</title>
+    <link rel="stylesheet" href="language-switcher.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -158,14 +159,14 @@
 <body>
     <div class="page-container">
         <header>
-            <h1>💊 Proposed Treatments</h1>
-            <p>Patient ID: <strong id="patientId">PAT-1234</strong> | Name: <strong id="patientName">John Doe</strong> | Age: <strong id="patientAge">65</strong></p>
-            <p>Selected Diagnosis: <strong id="selectedDiagnosis">-</strong></p>
+            <h1 data-i18n="proposedTreatments">💊 Proposed Treatments</h1>
+            <p><span data-i18n="patientId">Patient ID</span>: <strong id="patientId">PAT-1234</strong> | <span data-i18n="patientName">Name</span>: <strong id="patientName">John Doe</strong> | <span data-i18n="patientAge">Age</span>: <strong id="patientAge">65</strong></p>
+            <p><span data-i18n="selectedDiagnosis">Selected Diagnosis</span>: <strong id="selectedDiagnosis">-</strong></p>
         </header>
         
         <div class="section">
-            <h2>Select Medications and Treatment</h2>
-            <p>Based on the selected diagnosis, these medications and treatments are recommended:</p>
+            <h2 data-i18n="selectMedications">Select Medications and Treatment</h2>
+            <p data-i18n="basedOnDiagnosis">Based on the selected diagnosis, these medications and treatments are recommended:</p>
             
             <form id="medicationForm">
                 <!-- Medication 1 -->
@@ -173,36 +174,36 @@
                     <div class="medication-header">
                         <label class="medication-name">
                             <input type="checkbox" class="medication-checkbox" name="medications" value="Lidocaine">
-                            Lidocaine
+                            <span data-i18n="lidocaine">Lidocaine</span>
                         </label>
                     </div>
                     
                     <div class="medication-meta">
-                        <div class="medication-meta-item medication-cost">Approx. Cost: $120</div>
-                        <div class="medication-meta-item medication-stock">Stock: 24 units</div>
+                        <div class="medication-meta-item medication-cost"><span data-i18n="approxCost">Approx. Cost</span>: $120</div>
+                        <div class="medication-meta-item medication-stock"><span data-i18n="stock">Stock</span>: 24 <span data-i18n="units">units</span></div>
                     </div>
                     
                     <div class="medication-form-group">
-                        <label class="medication-label">Delivery Method:</label>
+                        <label class="medication-label" data-i18n="deliveryMethod">Delivery Method:</label>
                         <select class="medication-select" name="lidocaine-delivery">
-                            <option value="tube">Automated Tube Delivery</option>
-                            <option value="nurse">By Nurse</option>
+                            <option value="tube" data-i18n="automatedTube">Automated Tube Delivery</option>
+                            <option value="nurse" data-i18n="byNurse">By Nurse</option>
                         </select>
                     </div>
                     
                     <div class="medication-form-group">
-                        <label class="medication-label">Target Operation Room:</label>
+                        <label class="medication-label" data-i18n="targetRoom">Target Operation Room:</label>
                         <select class="medication-select" name="lidocaine-room">
-                            <option value="OR1">Operation Room 1</option>
-                            <option value="OR2">Operation Room 2</option>
-                            <option value="OR3">Operation Room 3</option>
-                            <option value="ICU">Intensive Care Unit</option>
+                            <option value="OR1" data-i18n="operationRoom1">Operation Room 1</option>
+                            <option value="OR2" data-i18n="operationRoom2">Operation Room 2</option>
+                            <option value="OR3" data-i18n="operationRoom3">Operation Room 3</option>
+                            <option value="ICU" data-i18n="icu">Intensive Care Unit</option>
                         </select>
                     </div>
                     
                     <div class="medication-form-group">
-                        <label class="medication-label">Extra Instructions:</label>
-                        <textarea class="medication-input" name="lidocaine-instructions" rows="2" placeholder="Enter specific dosage or administration notes"></textarea>
+                        <label class="medication-label" data-i18n="extraInstructions">Extra Instructions:</label>
+                        <textarea class="medication-input" name="lidocaine-instructions" rows="2" placeholder="Enter specific dosage or administration notes" data-i18n="instructionsPlaceholder"></textarea>
                     </div>
                 </div>
                 
@@ -211,36 +212,36 @@
                     <div class="medication-header">
                         <label class="medication-name">
                             <input type="checkbox" class="medication-checkbox" name="medications" value="Beta-blockers">
-                            Beta-blockers (Metoprolol)
+                            <span data-i18n="betaBlockers">Beta-blockers (Metoprolol)</span>
                         </label>
                     </div>
                     
                     <div class="medication-meta">
-                        <div class="medication-meta-item medication-cost">Approx. Cost: $85</div>
-                        <div class="medication-meta-item medication-stock">Stock: 38 units</div>
+                        <div class="medication-meta-item medication-cost"><span data-i18n="approxCost">Approx. Cost</span>: $85</div>
+                        <div class="medication-meta-item medication-stock"><span data-i18n="stock">Stock</span>: 38 <span data-i18n="units">units</span></div>
                     </div>
                     
                     <div class="medication-form-group">
-                        <label class="medication-label">Delivery Method:</label>
+                        <label class="medication-label" data-i18n="deliveryMethod">Delivery Method:</label>
                         <select class="medication-select" name="betablockers-delivery">
-                            <option value="tube">Automated Tube Delivery</option>
-                            <option value="nurse">By Nurse</option>
+                            <option value="tube" data-i18n="automatedTube">Automated Tube Delivery</option>
+                            <option value="nurse" data-i18n="byNurse">By Nurse</option>
                         </select>
                     </div>
                     
                     <div class="medication-form-group">
-                        <label class="medication-label">Target Operation Room:</label>
+                        <label class="medication-label" data-i18n="targetRoom">Target Operation Room:</label>
                         <select class="medication-select" name="betablockers-room">
-                            <option value="OR1">Operation Room 1</option>
-                            <option value="OR2">Operation Room 2</option>
-                            <option value="OR3">Operation Room 3</option>
-                            <option value="ICU">Intensive Care Unit</option>
+                            <option value="OR1" data-i18n="operationRoom1">Operation Room 1</option>
+                            <option value="OR2" data-i18n="operationRoom2">Operation Room 2</option>
+                            <option value="OR3" data-i18n="operationRoom3">Operation Room 3</option>
+                            <option value="ICU" data-i18n="icu">Intensive Care Unit</option>
                         </select>
                     </div>
                     
                     <div class="medication-form-group">
-                        <label class="medication-label">Extra Instructions:</label>
-                        <textarea class="medication-input" name="betablockers-instructions" rows="2" placeholder="Enter specific dosage or administration notes"></textarea>
+                        <label class="medication-label" data-i18n="extraInstructions">Extra Instructions:</label>
+                        <textarea class="medication-input" name="betablockers-instructions" rows="2" placeholder="Enter specific dosage or administration notes" data-i18n="instructionsPlaceholder"></textarea>
                     </div>
                 </div>
                 
@@ -249,61 +250,98 @@
                     <div class="medication-header">
                         <label class="medication-name">
                             <input type="checkbox" class="medication-checkbox" name="medications" value="Defibrillation kit">
-                            Defibrillation Kit
+                            <span data-i18n="defibrillationKit">Defibrillation Kit</span>
                         </label>
                     </div>
                     
                     <div class="medication-meta">
-                        <div class="medication-meta-item medication-cost">Approx. Cost: $350</div>
-                        <div class="medication-meta-item medication-stock">Stock: 12 units</div>
+                        <div class="medication-meta-item medication-cost"><span data-i18n="approxCost">Approx. Cost</span>: $350</div>
+                        <div class="medication-meta-item medication-stock"><span data-i18n="stock">Stock</span>: 12 <span data-i18n="units">units</span></div>
                     </div>
                     
                     <div class="medication-form-group">
-                        <label class="medication-label">Delivery Method:</label>
+                        <label class="medication-label" data-i18n="deliveryMethod">Delivery Method:</label>
                         <select class="medication-select" name="defib-delivery">
-                            <option value="tube">Automated Tube Delivery</option>
-                            <option value="nurse">By Nurse</option>
+                            <option value="tube" data-i18n="automatedTube">Automated Tube Delivery</option>
+                            <option value="nurse" data-i18n="byNurse">By Nurse</option>
                         </select>
                     </div>
                     
                     <div class="medication-form-group">
-                        <label class="medication-label">Target Operation Room:</label>
+                        <label class="medication-label" data-i18n="targetRoom">Target Operation Room:</label>
                         <select class="medication-select" name="defib-room">
-                            <option value="OR1">Operation Room 1</option>
-                            <option value="OR2">Operation Room 2</option>
-                            <option value="OR3">Operation Room 3</option>
-                            <option value="ICU">Intensive Care Unit</option>
+                            <option value="OR1" data-i18n="operationRoom1">Operation Room 1</option>
+                            <option value="OR2" data-i18n="operationRoom2">Operation Room 2</option>
+                            <option value="OR3" data-i18n="operationRoom3">Operation Room 3</option>
+                            <option value="ICU" data-i18n="icu">Intensive Care Unit</option>
                         </select>
                     </div>
                     
                     <div class="medication-form-group">
-                        <label class="medication-label">Extra Instructions:</label>
-                        <textarea class="medication-input" name="defib-instructions" rows="2" placeholder="Enter specific dosage or administration notes"></textarea>
+                        <label class="medication-label" data-i18n="extraInstructions">Extra Instructions:</label>
+                        <textarea class="medication-input" name="defib-instructions" rows="2" placeholder="Enter specific dosage or administration notes" data-i18n="instructionsPlaceholder"></textarea>
                     </div>
                 </div>
             </form>
             
             <div class="nav-buttons">
-                <a href="diagnosis.html" class="btn btn-secondary">Back to Diagnosis</a>
-                <button id="proceedToAuth" class="btn btn-primary">Proceed to Authorization</button>
+                <a href="diagnosis.html" class="btn btn-secondary" data-i18n="back">Back</a>
+                <button id="confirmMedications" class="btn btn-primary" data-i18n="confirmAndProceed">Confirm and Proceed to Authorization</button>
             </div>
         </div>
     </div>
 
+    <script src="translations.js"></script>
     <script>
-        // Display the selected diagnosis from previous step
+        // Handle medication confirmation and redirect to authorization page
+        document.getElementById('confirmMedications').addEventListener('click', function() {
+            // Get selected medications
+            const selectedMedications = document.querySelectorAll('input[name="medications"]:checked');
+            
+            if (selectedMedications.length === 0) {
+                alert(getTranslation('atLeastOneMedication'));
+                return;
+            }
+            
+            // Collect all medication data
+            const medicationsData = [];
+            selectedMedications.forEach(checkbox => {
+                const medicationCard = checkbox.closest('.medication-card');
+                const medicationName = checkbox.value;
+                
+                // Get delivery method and room
+                const deliveryMethod = medicationCard.querySelector('select[name$="-delivery"]').value;
+                const room = medicationCard.querySelector('select[name$="-room"]').value;
+                const instructions = medicationCard.querySelector('textarea[name$="-instructions"]').value;
+                
+                // Add to medications data
+                medicationsData.push({
+                    name: medicationName,
+                    delivery: deliveryMethod,
+                    room: room,
+                    instructions: instructions
+                });
+            });
+            
+            // Store the selected medications in localStorage
+            localStorage.setItem('selectedMedications', JSON.stringify(medicationsData));
+            
+            // Navigate to the authorization page
+            window.location.href = 'authorization.html';
+        });
+
+        // Load patient and diagnosis info from localStorage
         document.addEventListener('DOMContentLoaded', function() {
-            // Get diagnosis from localStorage
             const diagnosis = localStorage.getItem('selectedDiagnosis');
             if (diagnosis) {
                 document.getElementById('selectedDiagnosis').textContent = diagnosis;
             } else {
                 // If no diagnosis is found, redirect back to diagnosis page
-                alert('Please select a diagnosis first');
+                alert(getTranslation('diagnosisRequired'));
                 window.location.href = 'diagnosis.html';
+                return;
             }
             
-            // Load patient info if available
             const patientId = localStorage.getItem('patientId');
             const patientName = localStorage.getItem('patientName');
             const patientAge = localStorage.getItem('patientAge');
@@ -311,57 +349,6 @@
             if (patientId) document.getElementById('patientId').textContent = patientId;
             if (patientName) document.getElementById('patientName').textContent = patientName;
             if (patientAge) document.getElementById('patientAge').textContent = patientAge;
-        });
-        
-        // Handle proceeding to authorization
-        document.getElementById('proceedToAuth').addEventListener('click', function() {
-            // Check if at least one medication is selected
-            const selectedMedications = document.querySelectorAll('input[name="medications"]:checked');
-            
-            if (selectedMedications.length === 0) {
-                alert('Please select at least one medication before proceeding.');
-                return;
-            }
-            
-            // Store selected medications in localStorage
-            const medicationData = [];
-            
-            // Map medication names to their form field prefixes
-            const nameMapping = {
-                'Lidocaine': 'lidocaine',
-                'Beta-blockers': 'betablockers',
-                'Defibrillation kit': 'defib'
-            };
-            
-            selectedMedications.forEach(medication => {
-                const medicationName = medication.value;
-                const medicationDetails = {
-                    name: medicationName
-                };
-                
-                // Get the correct prefix from the mapping
-                const namePrefix = nameMapping[medicationName];
-                
-                if (!namePrefix) {
-                    console.error(`No form field mapping found for medication: ${medicationName}`);
-                    return;
-                }
-                
-                const deliveryMethod = document.querySelector(`select[name="${namePrefix}-delivery"]`).value;
-                const targetRoom = document.querySelector(`select[name="${namePrefix}-room"]`).value;
-                const instructions = document.querySelector(`textarea[name="${namePrefix}-instructions"]`).value;
-                
-                medicationDetails.delivery = deliveryMethod;
-                medicationDetails.room = targetRoom;
-                medicationDetails.instructions = instructions;
-                
-                medicationData.push(medicationDetails);
-            });
-            
-            localStorage.setItem('selectedMedications', JSON.stringify(medicationData));
-            
-            // Navigate to authorization page
-            window.location.href = 'authorization.html';
         });
     </script>
 </body>
