@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Patient Monitoring Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        header {
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+        .status {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .status-normal { background-color: #e3fcef; color: #0f9d58; }
+        .status-warning { background-color: #fff8e1; color: #ffa000; }
+        .status-alert { background-color: #ffebee; color: #d32f2f; }
+        
+        /* Category colors */
+        .cardiovascular { border-top: 3px solid #e74c3c; }
+        .biometric { border-top: 3px solid #3498db; }
+        .advanced { border-top: 3px solid #9b59b6; }
+        
+        /* ECG chart placeholder */
+        .ecg-chart {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(to right, rgba(0,0,0,0.02), rgba(0,0,0,0.05));
+            position: relative;
+            overflow: hidden;
+        }
+        .ecg-line {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: rgba(231, 76, 60, 0.2);
+        }
+        .ecg-wave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 L20,40 L25,10 L30,70 L35,40 L50,40 L55,20 L60,60 L65,40 L100,40' stroke='%23e74c3c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-size: 100px 100%;
+            background-repeat: repeat-x;
+            animation: ecgMove 2s linear infinite;
+        }
+        @keyframes ecgMove {
+            from { background-position-x: 0; }
+            to { background-position-x: -100px; }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Heart Patient Monitoring Dashboard</h1>
+        <p>Patient ID: <strong>PAT-1234</strong> | Name: <strong>John Doe</strong> | Age: <strong>65</strong></p>
+        <p>Location: <strong>Operating Room</strong></p>
+        <p id="last-updated">Last updated: <span>Loading...</span></p>
+    </header>
+    
+    <div class="dashboard">
+        <!-- Cardiovascular Metrics -->
+        <div class="section cardiovascular">
+            <h2>🔴 Cardiovascular Metrics</h2>
+            <div class="card-container">
+                <div class="card">
+                    <div class="metric-label">Heart Rate</div>
+                    <div class="metric-value" id="heart-rate">-- bpm</div>
+                    <div class="status status-normal">Normal</div>
+                </div>
+                <div class="card">
+                    <div class="metric-label">HRV</div>
+                    <div class="metric-value" id="hrv">-- ms</div>
+                    <div class="status status-normal">Normal</div>
+                </div>
+                <div class="card">
+                    <div class="metric-label">Blood Pressure</div>
+                    <div class="metric-value" id="blood-pressure">--/-- mmHg</div>
+                    <div class="status status-normal">Normal</div>
+                </div>
+                <div class="card">
+                    <div class="metric-label">SpO₂</div>
+                    <div class="metric-value" id="oxygen">--%</div>
+                    <div class="status status-normal">Normal</div>
+                </div>
+                <div class="card">
+                    <div class="metric-label">Respiratory Rate</div>
+                    <div class="metric-value" id="resp-rate">-- bpm</div>
+                    <div class="status status-normal">Normal</div>
+                </div>
+                <div class="card" style="grid-column: span 2;">
+                    <div class="metric-label">ECG</div>
+                    <div class="ecg-chart">
+                        <div class="ecg-line"></div>
+                        <div class="ecg-wave"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Biometric Data -->
+        <div class="section biometric">
+            <h2>🔵 Other Biometric Data</h2>
+            <div class="card-container">
+                <div class="card">
+                    <div class="metric-label">Body Temperature</div>
+                    <div class="metric-value" id="body-temp">-- °C</div>
+                    <div class="status status-normal">Normal</div>
+                </div>
+                <div class="card">
+                    <div class="metric-label">Weight</div>
+                    <div class="metric-value" id="weight">-- kg</div>
+                    <div class="status status-normal">Stable</div>
+                </div>
+                <div class="card">
+                    <div class="metric-label">Blood Glucose</div>
+                    <div class="metric-value" id="glucose">-- mg/dL</div>
+                    <div class="status status-normal">Normal</div>
+                </div>
+                <div class="card">
+                    <div class="metric-label">Electrolyte Levels</div>
+                    <div class="metric-value" id="electrolytes">--</div>
+                    <div class="status status-normal">Balanced</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Metrics -->
+        <div class="section advanced">
+            <h2>🟣 Advanced Metrics</h2>
+            <div class="card-container">
+                <div class="card">
+                    <div class="metric-label">Cardiac Output</div>
+                    <div class="metric-value" id="cardiac-output">-- L/min</div>
+                    <div class="status status-normal">Normal</div>
+                </div>
+                <div class="card">
+                    <div class="metric-label">Stress Index</div>
+                    <div class="metric-value" id="stress">--</div>
+                    <div class="status status-normal">Low</div>
+                </div>
+                <div class="card">
+                    <div class="metric-label">Voice/Breath Analysis</div>
+                    <div class="metric-value" id="voice-breath">--</div>
+                    <div class="status status-normal">Normal</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to generate random values for demonstration
+        function updateMockData() {
+            // Cardiovascular
+            document.getElementById('heart-rate').textContent = Math.floor(70 + Math.random() * 15) + ' bpm';
+            document.getElementById('hrv').textContent = Math.floor(40 + Math.random() * 30) + ' ms';
+            document.getElementById('blood-pressure').textContent = Math.floor(110 + Math.random() * 20) + '/' + Math.floor(70 + Math.random() * 10) + ' mmHg';
+            
+            const oxygen = Math.floor(94 + Math.random() * 5);
+            document.getElementById('oxygen').textContent = oxygen + '%';
+            if (oxygen < 95) {
+                document.getElementById('oxygen').nextElementSibling.className = 'status status-warning';
+                document.getElementById('oxygen').nextElementSibling.textContent = 'Low';
+            }
+            
+            document.getElementById('resp-rate').textContent = Math.floor(12 + Math.random() * 6) + ' bpm';
+
+            // Biometric
+            const bodyTemp = (36.5 + Math.random() * 1).toFixed(1);
+            document.getElementById('body-temp').textContent = bodyTemp + ' °C';
+            if (bodyTemp > 37.2) {
+                document.getElementById('body-temp').nextElementSibling.className = 'status status-warning';
+                document.getElementById('body-temp').nextElementSibling.textContent = 'Elevated';
+            }
+            
+            document.getElementById('weight').textContent = (70 + Math.random() * 10).toFixed(1) + ' kg';
+            
+            const glucose = Math.floor(80 + Math.random() * 60);
+            document.getElementById('glucose').textContent = glucose + ' mg/dL';
+            if (glucose > 120) {
+                document.getElementById('glucose').nextElementSibling.className = 'status status-warning';
+                document.getElementById('glucose').nextElementSibling.textContent = 'Elevated';
+            }
+            
+            document.getElementById('electrolytes').textContent = 'Normal';
+
+            // Advanced
+            document.getElementById('cardiac-output').textContent = (4 + Math.random() * 2).toFixed(1) + ' L/min';
+            
+            const stress = Math.floor(Math.random() * 100);
+            document.getElementById('stress').textContent = stress + '/100';
+            if (stress > 70) {
+                document.getElementById('stress').nextElementSibling.className = 'status status-warning';
+                document.getElementById('stress').nextElementSibling.textContent = 'High';
+            }
+            
+            document.getElementById('voice-breath').textContent = 'Normal';
+
+            // Update timestamp
+            const now = new Date();
+            document.querySelector('#last-updated span').textContent = now.toLocaleString();
+        }
+
+        // Initial update
+        updateMockData();
+
+        // Update every 10 seconds
+        setInterval(updateMockData, 10000);
+    </script>
+</body>
+</html> 
