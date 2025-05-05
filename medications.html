@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Treatment Selection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+            box-sizing: border-box;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        header {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Button styles */
+        .btn {
+            padding: 10px 16px;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1a252f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Medication step styles */
+        .medication-card {
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .medication-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .medication-name {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            flex: 1;
+        }
+        
+        .medication-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .medication-meta-item {
+            background-color: #f5f7fa;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .medication-cost {
+            color: #16a085;
+        }
+        
+        .medication-stock {
+            color: #d35400;
+        }
+        
+        .medication-form-group {
+            margin-bottom: 15px;
+        }
+        
+        .medication-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        .medication-select, .medication-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .medication-checkbox {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        /* Navigation buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <h1>💊 Proposed Treatments</h1>
+            <p>Patient ID: <strong id="patientId">PAT-1234</strong> | Name: <strong id="patientName">John Doe</strong> | Age: <strong id="patientAge">65</strong></p>
+            <p>Selected Diagnosis: <strong id="selectedDiagnosis">-</strong></p>
+        </header>
+        
+        <div class="section">
+            <h2>Select Medications and Treatment</h2>
+            <p>Based on the selected diagnosis, these medications and treatments are recommended:</p>
+            
+            <form id="medicationForm">
+                <!-- Medication 1 -->
+                <div class="medication-card">
+                    <div class="medication-header">
+                        <label class="medication-name">
+                            <input type="checkbox" class="medication-checkbox" name="medications" value="Lidocaine">
+                            Lidocaine
+                        </label>
+                    </div>
+                    
+                    <div class="medication-meta">
+                        <div class="medication-meta-item medication-cost">Approx. Cost: $120</div>
+                        <div class="medication-meta-item medication-stock">Stock: 24 units</div>
+                    </div>
+                    
+                    <div class="medication-form-group">
+                        <label class="medication-label">Delivery Method:</label>
+                        <select class="medication-select" name="lidocaine-delivery">
+                            <option value="tube">Automated Tube Delivery</option>
+                            <option value="nurse">By Nurse</option>
+                        </select>
+                    </div>
+                    
+                    <div class="medication-form-group">
+                        <label class="medication-label">Target Operation Room:</label>
+                        <select class="medication-select" name="lidocaine-room">
+                            <option value="OR1">Operation Room 1</option>
+                            <option value="OR2">Operation Room 2</option>
+                            <option value="OR3">Operation Room 3</option>
+                            <option value="ICU">Intensive Care Unit</option>
+                        </select>
+                    </div>
+                    
+                    <div class="medication-form-group">
+                        <label class="medication-label">Extra Instructions:</label>
+                        <textarea class="medication-input" name="lidocaine-instructions" rows="2" placeholder="Enter specific dosage or administration notes"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Medication 2 -->
+                <div class="medication-card">
+                    <div class="medication-header">
+                        <label class="medication-name">
+                            <input type="checkbox" class="medication-checkbox" name="medications" value="Beta-blockers">
+                            Beta-blockers (Metoprolol)
+                        </label>
+                    </div>
+                    
+                    <div class="medication-meta">
+                        <div class="medication-meta-item medication-cost">Approx. Cost: $85</div>
+                        <div class="medication-meta-item medication-stock">Stock: 38 units</div>
+                    </div>
+                    
+                    <div class="medication-form-group">
+                        <label class="medication-label">Delivery Method:</label>
+                        <select class="medication-select" name="betablockers-delivery">
+                            <option value="tube">Automated Tube Delivery</option>
+                            <option value="nurse">By Nurse</option>
+                        </select>
+                    </div>
+                    
+                    <div class="medication-form-group">
+                        <label class="medication-label">Target Operation Room:</label>
+                        <select class="medication-select" name="betablockers-room">
+                            <option value="OR1">Operation Room 1</option>
+                            <option value="OR2">Operation Room 2</option>
+                            <option value="OR3">Operation Room 3</option>
+                            <option value="ICU">Intensive Care Unit</option>
+                        </select>
+                    </div>
+                    
+                    <div class="medication-form-group">
+                        <label class="medication-label">Extra Instructions:</label>
+                        <textarea class="medication-input" name="betablockers-instructions" rows="2" placeholder="Enter specific dosage or administration notes"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Medication 3 -->
+                <div class="medication-card">
+                    <div class="medication-header">
+                        <label class="medication-name">
+                            <input type="checkbox" class="medication-checkbox" name="medications" value="Defibrillation kit">
+                            Defibrillation Kit
+                        </label>
+                    </div>
+                    
+                    <div class="medication-meta">
+                        <div class="medication-meta-item medication-cost">Approx. Cost: $350</div>
+                        <div class="medication-meta-item medication-stock">Stock: 12 units</div>
+                    </div>
+                    
+                    <div class="medication-form-group">
+                        <label class="medication-label">Delivery Method:</label>
+                        <select class="medication-select" name="defib-delivery">
+                            <option value="tube">Automated Tube Delivery</option>
+                            <option value="nurse">By Nurse</option>
+                        </select>
+                    </div>
+                    
+                    <div class="medication-form-group">
+                        <label class="medication-label">Target Operation Room:</label>
+                        <select class="medication-select" name="defib-room">
+                            <option value="OR1">Operation Room 1</option>
+                            <option value="OR2">Operation Room 2</option>
+                            <option value="OR3">Operation Room 3</option>
+                            <option value="ICU">Intensive Care Unit</option>
+                        </select>
+                    </div>
+                    
+                    <div class="medication-form-group">
+                        <label class="medication-label">Extra Instructions:</label>
+                        <textarea class="medication-input" name="defib-instructions" rows="2" placeholder="Enter specific dosage or administration notes"></textarea>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="nav-buttons">
+                <a href="diagnosis.html" class="btn btn-secondary">Back to Diagnosis</a>
+                <button id="proceedToAuth" class="btn btn-primary">Proceed to Authorization</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Display the selected diagnosis from previous step
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get diagnosis from localStorage
+            const diagnosis = localStorage.getItem('selectedDiagnosis');
+            if (diagnosis) {
+                document.getElementById('selectedDiagnosis').textContent = diagnosis;
+            } else {
+                // If no diagnosis is found, redirect back to diagnosis page
+                alert('Please select a diagnosis first');
+                window.location.href = 'diagnosis.html';
+            }
+            
+            // Load patient info if available
+            const patientId = localStorage.getItem('patientId');
+            const patientName = localStorage.getItem('patientName');
+            const patientAge = localStorage.getItem('patientAge');
+            
+            if (patientId) document.getElementById('patientId').textContent = patientId;
+            if (patientName) document.getElementById('patientName').textContent = patientName;
+            if (patientAge) document.getElementById('patientAge').textContent = patientAge;
+        });
+        
+        // Handle proceeding to authorization
+        document.getElementById('proceedToAuth').addEventListener('click', function() {
+            // Check if at least one medication is selected
+            const selectedMedications = document.querySelectorAll('input[name="medications"]:checked');
+            
+            if (selectedMedications.length === 0) {
+                alert('Please select at least one medication before proceeding.');
+                return;
+            }
+            
+            // Store selected medications in localStorage
+            const medicationData = [];
+            
+            // Map medication names to their form field prefixes
+            const nameMapping = {
+                'Lidocaine': 'lidocaine',
+                'Beta-blockers': 'betablockers',
+                'Defibrillation kit': 'defib'
+            };
+            
+            selectedMedications.forEach(medication => {
+                const medicationName = medication.value;
+                const medicationDetails = {
+                    name: medicationName
+                };
+                
+                // Get the correct prefix from the mapping
+                const namePrefix = nameMapping[medicationName];
+                
+                if (!namePrefix) {
+                    console.error(`No form field mapping found for medication: ${medicationName}`);
+                    return;
+                }
+                
+                const deliveryMethod = document.querySelector(`select[name="${namePrefix}-delivery"]`).value;
+                const targetRoom = document.querySelector(`select[name="${namePrefix}-room"]`).value;
+                const instructions = document.querySelector(`textarea[name="${namePrefix}-instructions"]`).value;
+                
+                medicationDetails.delivery = deliveryMethod;
+                medicationDetails.room = targetRoom;
+                medicationDetails.instructions = instructions;
+                
+                medicationData.push(medicationDetails);
+            });
+            
+            localStorage.setItem('selectedMedications', JSON.stringify(medicationData));
+            
+            // Navigate to authorization page
+            window.location.href = 'authorization.html';
+        });
+    </script>
+</body>
+</html> 

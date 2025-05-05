@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Diagnosis Selection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+            box-sizing: border-box;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        header {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Button styles */
+        .btn {
+            padding: 10px 16px;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1a252f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Diagnosis step styles */
+        .diagnosis-option {
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        
+        .diagnosis-option:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .diagnosis-option input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+        
+        .diagnosis-info {
+            flex: 1;
+        }
+        
+        .diagnosis-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .diagnosis-description {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .diagnosis-confidence {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        /* Navigation buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <h1>🧠 Proposed Diagnoses</h1>
+            <p>Patient ID: <strong id="patientId">PAT-1234</strong> | Name: <strong id="patientName">John Doe</strong> | Age: <strong id="patientAge">65</strong></p>
+        </header>
+
+        <div class="section">
+            <h2>Select the Most Likely Diagnosis</h2>
+            <p>AI-assisted analysis has identified the following potential diagnoses based on patient data:</p>
+            
+            <form id="diagnosisForm">
+                <div class="diagnosis-option">
+                    <input type="radio" id="diagnosis1" name="diagnosis" value="Arrhythmia">
+                    <div class="diagnosis-info">
+                        <div class="diagnosis-name">Arrhythmia <span class="diagnosis-confidence">92% confidence</span></div>
+                        <div class="diagnosis-description">Abnormal heart rhythm characterized by irregular heartbeats. Patient's ECG shows pattern consistent with ventricular arrhythmia.</div>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-option">
+                    <input type="radio" id="diagnosis2" name="diagnosis" value="Ischemic heart disease">
+                    <div class="diagnosis-info">
+                        <div class="diagnosis-name">Ischemic heart disease <span class="diagnosis-confidence">78% confidence</span></div>
+                        <div class="diagnosis-description">Reduced blood flow to the heart muscle. The patient's vital signs and ECG pattern suggest reduced oxygen delivery to cardiac tissue.</div>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-option">
+                    <input type="radio" id="diagnosis3" name="diagnosis" value="Pericarditis">
+                    <div class="diagnosis-info">
+                        <div class="diagnosis-name">Pericarditis <span class="diagnosis-confidence">65% confidence</span></div>
+                        <div class="diagnosis-description">Inflammation of the pericardium (the membrane surrounding the heart). Several indicators in vitals and patient history suggest this condition.</div>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-option">
+                    <input type="radio" id="diagnosis4" name="diagnosis" value="Heart valve defect">
+                    <div class="diagnosis-info">
+                        <div class="diagnosis-name">Heart valve defect <span class="diagnosis-confidence">54% confidence</span></div>
+                        <div class="diagnosis-description">Malfunctioning heart valve causing improper blood flow. The unusual pattern in cardiac output may indicate valve-related issues.</div>
+                    </div>
+                </div>
+                
+                <div class="diagnosis-option">
+                    <input type="radio" id="diagnosis5" name="diagnosis" value="Congestive heart failure">
+                    <div class="diagnosis-info">
+                        <div class="diagnosis-name">Congestive heart failure <span class="diagnosis-confidence">42% confidence</span></div>
+                        <div class="diagnosis-description">Heart unable to pump efficiently, causing fluid build-up. Some indicators present but not strongly supported by current data.</div>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="nav-buttons">
+                <a href="index.html" class="btn btn-secondary">Back to Dashboard</a>
+                <button id="confirmDiagnosis" class="btn btn-primary">Confirm Diagnosis</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle diagnosis confirmation and redirect to medications page
+        document.getElementById('confirmDiagnosis').addEventListener('click', function() {
+            // Get selected diagnosis
+            const selectedDiagnosisInput = document.querySelector('input[name="diagnosis"]:checked');
+            
+            if (!selectedDiagnosisInput) {
+                alert('Please select a diagnosis before proceeding.');
+                return;
+            }
+            
+            const diagnosisValue = selectedDiagnosisInput.value;
+            
+            // Store the selected diagnosis in localStorage
+            localStorage.setItem('selectedDiagnosis', diagnosisValue);
+            
+            // Navigate to the medications page
+            window.location.href = 'medications.html';
+        });
+
+        // Load patient info from localStorage if available
+        document.addEventListener('DOMContentLoaded', function() {
+            const patientId = localStorage.getItem('patientId');
+            const patientName = localStorage.getItem('patientName');
+            const patientAge = localStorage.getItem('patientAge');
+            
+            if (patientId) document.getElementById('patientId').textContent = patientId;
+            if (patientName) document.getElementById('patientName').textContent = patientName;
+            if (patientAge) document.getElementById('patientAge').textContent = patientAge;
+        });
+    </script>
+</body>
+</html> 
