@@ -452,14 +452,21 @@
     <script>
         // Data arrays to store history for charts
         const dataPoints = 20; // Number of data points to display
-        const hrHistory = Array(dataPoints).fill(70);
-        const systolicHistory = Array(dataPoints).fill(120);
-        const diastolicHistory = Array(dataPoints).fill(80);
-        const spo2History = Array(dataPoints).fill(98);
-        const tempHistory = Array(dataPoints).fill(36.8);
-        const glucoseHistory = Array(dataPoints).fill(100);
-        const cardiacHistory = Array(dataPoints).fill(5.0);
-        const stressHistory = Array(dataPoints).fill(30);
+        
+        // Generate initial varied data instead of flat lines
+        function generateRandomData(baseValue, variance, count) {
+            return Array(count).fill(0).map(() => baseValue + (Math.random() * variance * 2) - variance);
+        }
+        
+        // Initialize with varied data
+        const hrHistory = generateRandomData(75, 10, dataPoints);
+        const systolicHistory = generateRandomData(120, 15, dataPoints);
+        const diastolicHistory = generateRandomData(80, 8, dataPoints);
+        const spo2History = generateRandomData(97, 3, dataPoints);
+        const tempHistory = generateRandomData(36.8, 0.5, dataPoints);
+        const glucoseHistory = generateRandomData(100, 20, dataPoints);
+        const cardiacHistory = generateRandomData(5.0, 1.0, dataPoints);
+        const stressHistory = generateRandomData(40, 20, dataPoints);
         
         // Function to set canvas dimensions
         function setCanvasDimensions() {
