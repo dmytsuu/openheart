@@ -11,9 +11,14 @@
             padding: 20px;
             background-color: #f5f7fa;
             color: #333;
+            box-sizing: border-box;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
         }
         header {
             margin-bottom: 30px;
+            width: 100%;
         }
         h1 {
             color: #2c3e50;
@@ -26,9 +31,9 @@
             border-bottom: 1px solid #ddd;
         }
         .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
         .section {
             background-color: white;
@@ -36,11 +41,13 @@
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+            width: 100%;
         }
         .card-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             gap: 15px;
+            width: 100%;
         }
         .card {
             background-color: white;
@@ -118,9 +125,102 @@
             to { background-position-x: -100px; }
         }
         
+        /* Chart styles */
+        .chart-container {
+            width: 100%;
+            height: 120px;
+            margin-top: 15px;
+            position: relative;
+        }
+        .chart {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.02);
+            border-radius: 4px;
+            position: relative;
+        }
+        .chart-title {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .chart-label {
+            position: absolute;
+            font-size: 0.7rem;
+            color: #95a5a6;
+        }
+        .chart-label.y-max {
+            top: 0;
+            left: 5px;
+        }
+        .chart-label.y-min {
+            bottom: 0;
+            left: 5px;
+        }
+        .chart-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-rows: repeat(4, 1fr);
+        }
+        .chart-grid-line {
+            border-top: 1px dashed rgba(0,0,0,0.1);
+        }
+        .chart-grid-line:first-child {
+            border-top: none;
+        }
+        .chart-line {
+            position: absolute;
+            height: 2px;
+            background: rgba(231, 76, 60, 0.7);
+            bottom: 0;
+            width: 100%;
+            transform-origin: bottom left;
+        }
+        .chart-line-hr {
+            background: rgba(231, 76, 60, 0.7);
+        }
+        .chart-line-oxygen {
+            background: rgba(52, 152, 219, 0.7);
+        }
+        .chart-line-bp {
+            background: rgba(155, 89, 182, 0.7);
+        }
+        .chart-line-glucose {
+            background: rgba(46, 204, 113, 0.7);
+        }
+        .chart-point {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid rgba(231, 76, 60, 0.7);
+            position: absolute;
+            transform: translate(-50%, -50%);
+        }
+        .chart-bar {
+            position: absolute;
+            bottom: 0;
+            width: 8px;
+            border-radius: 2px 2px 0 0;
+            background-color: rgba(231, 76, 60, 0.7);
+        }
+        
+        .full-width-chart {
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        
         @media (max-width: 768px) {
-            .dashboard {
-                grid-template-columns: 1fr;
+            .card-container {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -171,6 +271,60 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Heart Rate History Chart -->
+            <div class="full-width-chart">
+                <div class="chart-title">Heart Rate Trend</div>
+                <div class="chart-container" id="heart-rate-chart">
+                    <div class="chart">
+                        <div class="chart-grid">
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                        </div>
+                        <div class="chart-label y-max">120 bpm</div>
+                        <div class="chart-label y-min">60 bpm</div>
+                        <canvas id="hr-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Blood Pressure History Chart -->
+            <div class="full-width-chart">
+                <div class="chart-title">Blood Pressure Trend</div>
+                <div class="chart-container" id="bp-chart">
+                    <div class="chart">
+                        <div class="chart-grid">
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                        </div>
+                        <div class="chart-label y-max">160/100 mmHg</div>
+                        <div class="chart-label y-min">90/60 mmHg</div>
+                        <canvas id="bp-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SpO2 History Chart -->
+            <div class="full-width-chart">
+                <div class="chart-title">Oxygen Saturation Trend</div>
+                <div class="chart-container" id="spo2-chart">
+                    <div class="chart">
+                        <div class="chart-grid">
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                        </div>
+                        <div class="chart-label y-max">100%</div>
+                        <div class="chart-label y-min">90%</div>
+                        <canvas id="spo2-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Other Biometric Data -->
@@ -198,6 +352,42 @@
                     <div class="status status-normal">Balanced</div>
                 </div>
             </div>
+            
+            <!-- Temperature History Chart -->
+            <div class="full-width-chart">
+                <div class="chart-title">Body Temperature Trend</div>
+                <div class="chart-container" id="temp-chart">
+                    <div class="chart">
+                        <div class="chart-grid">
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                        </div>
+                        <div class="chart-label y-max">38.0°C</div>
+                        <div class="chart-label y-min">36.0°C</div>
+                        <canvas id="temp-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Glucose History Chart -->
+            <div class="full-width-chart">
+                <div class="chart-title">Blood Glucose Trend</div>
+                <div class="chart-container" id="glucose-chart">
+                    <div class="chart">
+                        <div class="chart-grid">
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                        </div>
+                        <div class="chart-label y-max">180 mg/dL</div>
+                        <div class="chart-label y-min">70 mg/dL</div>
+                        <canvas id="glucose-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Advanced Metrics -->
@@ -220,25 +410,237 @@
                     <div class="status status-normal">Normal</div>
                 </div>
             </div>
+            
+            <!-- Cardiac Output Chart -->
+            <div class="full-width-chart">
+                <div class="chart-title">Cardiac Output Trend</div>
+                <div class="chart-container" id="cardiac-chart">
+                    <div class="chart">
+                        <div class="chart-grid">
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                        </div>
+                        <div class="chart-label y-max">7.0 L/min</div>
+                        <div class="chart-label y-min">3.0 L/min</div>
+                        <canvas id="cardiac-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stress Index Chart -->
+            <div class="full-width-chart">
+                <div class="chart-title">Stress Index Trend</div>
+                <div class="chart-container" id="stress-chart">
+                    <div class="chart">
+                        <div class="chart-grid">
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                            <div class="chart-grid-line"></div>
+                        </div>
+                        <div class="chart-label y-max">100</div>
+                        <div class="chart-label y-min">0</div>
+                        <canvas id="stress-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
+        // Data arrays to store history for charts
+        const dataPoints = 20; // Number of data points to display
+        const hrHistory = Array(dataPoints).fill(70);
+        const systolicHistory = Array(dataPoints).fill(120);
+        const diastolicHistory = Array(dataPoints).fill(80);
+        const spo2History = Array(dataPoints).fill(98);
+        const tempHistory = Array(dataPoints).fill(36.8);
+        const glucoseHistory = Array(dataPoints).fill(100);
+        const cardiacHistory = Array(dataPoints).fill(5.0);
+        const stressHistory = Array(dataPoints).fill(30);
+        
+        // Function to set canvas dimensions
+        function setCanvasDimensions() {
+            const canvases = document.querySelectorAll('canvas');
+            canvases.forEach(canvas => {
+                const container = canvas.parentElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+            });
+        }
+        
+        // Initialize all chart canvases
+        function initializeCharts() {
+            setCanvasDimensions();
+            drawLineChart('hr-canvas', hrHistory, 60, 120, 'rgba(231, 76, 60, 0.7)');
+            drawDualLineChart('bp-canvas', systolicHistory, diastolicHistory, 60, 160, 'rgba(155, 89, 182, 0.7)', 'rgba(155, 89, 182, 0.3)');
+            drawLineChart('spo2-canvas', spo2History, 90, 100, 'rgba(52, 152, 219, 0.7)');
+            drawLineChart('temp-canvas', tempHistory, 36, 38, 'rgba(241, 196, 15, 0.7)');
+            drawLineChart('glucose-canvas', glucoseHistory, 70, 180, 'rgba(46, 204, 113, 0.7)');
+            drawLineChart('cardiac-canvas', cardiacHistory, 3, 7, 'rgba(155, 89, 182, 0.7)');
+            drawLineChart('stress-canvas', stressHistory, 0, 100, 'rgba(231, 76, 60, 0.7)');
+        }
+        
+        // Function to draw a line chart
+        function drawLineChart(canvasId, data, minValue, maxValue, lineColor) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw line
+            ctx.beginPath();
+            ctx.strokeStyle = lineColor;
+            ctx.lineWidth = 2;
+            
+            const valueRange = maxValue - minValue;
+            const pointSpacing = width / (dataPoints - 1);
+            
+            for (let i = 0; i < data.length; i++) {
+                const x = i * pointSpacing;
+                const normalizedY = (data[i] - minValue) / valueRange;
+                const y = height - (normalizedY * height);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            
+            ctx.stroke();
+            
+            // Draw points
+            for (let i = 0; i < data.length; i++) {
+                const x = i * pointSpacing;
+                const normalizedY = (data[i] - minValue) / valueRange;
+                const y = height - (normalizedY * height);
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = 'white';
+                ctx.fill();
+                ctx.strokeStyle = lineColor;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+        }
+        
+        // Function to draw a dual line chart (for blood pressure)
+        function drawDualLineChart(canvasId, data1, data2, minValue, maxValue, line1Color, line2Color) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw first line (systolic)
+            ctx.beginPath();
+            ctx.strokeStyle = line1Color;
+            ctx.lineWidth = 2;
+            
+            const valueRange = maxValue - minValue;
+            const pointSpacing = width / (dataPoints - 1);
+            
+            for (let i = 0; i < data1.length; i++) {
+                const x = i * pointSpacing;
+                const normalizedY = (data1[i] - minValue) / valueRange;
+                const y = height - (normalizedY * height);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            
+            ctx.stroke();
+            
+            // Draw second line (diastolic)
+            ctx.beginPath();
+            ctx.strokeStyle = line2Color;
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < data2.length; i++) {
+                const x = i * pointSpacing;
+                const normalizedY = (data2[i] - minValue) / valueRange;
+                const y = height - (normalizedY * height);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            
+            ctx.stroke();
+            
+            // Draw points for both lines
+            for (let i = 0; i < data1.length; i++) {
+                // Systolic points
+                const x1 = i * pointSpacing;
+                const normalizedY1 = (data1[i] - minValue) / valueRange;
+                const y1 = height - (normalizedY1 * height);
+                
+                ctx.beginPath();
+                ctx.arc(x1, y1, 3, 0, Math.PI * 2);
+                ctx.fillStyle = 'white';
+                ctx.fill();
+                ctx.strokeStyle = line1Color;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+                
+                // Diastolic points
+                const x2 = i * pointSpacing;
+                const normalizedY2 = (data2[i] - minValue) / valueRange;
+                const y2 = height - (normalizedY2 * height);
+                
+                ctx.beginPath();
+                ctx.arc(x2, y2, 3, 0, Math.PI * 2);
+                ctx.fillStyle = 'white';
+                ctx.fill();
+                ctx.strokeStyle = line2Color;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+        }
+        
         // Function to generate random values for demonstration
         function updateMockData() {
             // Cardiovascular
-            document.getElementById('heart-rate').textContent = Math.floor(70 + Math.random() * 15) + ' bpm';
-            document.getElementById('hrv').textContent = Math.floor(40 + Math.random() * 30) + ' ms';
-            document.getElementById('blood-pressure').textContent = Math.floor(110 + Math.random() * 20) + '/' + Math.floor(70 + Math.random() * 10) + ' mmHg';
+            const heartRate = Math.floor(70 + Math.random() * 15);
+            document.getElementById('heart-rate').textContent = heartRate + ' bpm';
+            
+            const hrv = Math.floor(40 + Math.random() * 30);
+            document.getElementById('hrv').textContent = hrv + ' ms';
+            
+            const systolic = Math.floor(110 + Math.random() * 20);
+            const diastolic = Math.floor(70 + Math.random() * 10);
+            document.getElementById('blood-pressure').textContent = systolic + '/' + diastolic + ' mmHg';
             
             const oxygen = Math.floor(94 + Math.random() * 5);
             document.getElementById('oxygen').textContent = oxygen + '%';
             if (oxygen < 95) {
                 document.getElementById('oxygen').nextElementSibling.className = 'status status-warning';
                 document.getElementById('oxygen').nextElementSibling.textContent = 'Low';
+            } else {
+                document.getElementById('oxygen').nextElementSibling.className = 'status status-normal';
+                document.getElementById('oxygen').nextElementSibling.textContent = 'Normal';
             }
             
-            document.getElementById('resp-rate').textContent = Math.floor(12 + Math.random() * 6) + ' bpm';
+            const respRate = Math.floor(12 + Math.random() * 6);
+            document.getElementById('resp-rate').textContent = respRate + ' bpm';
 
             // Biometric
             const bodyTemp = (36.5 + Math.random() * 1).toFixed(1);
@@ -246,6 +648,9 @@
             if (bodyTemp > 37.2) {
                 document.getElementById('body-temp').nextElementSibling.className = 'status status-warning';
                 document.getElementById('body-temp').nextElementSibling.textContent = 'Elevated';
+            } else {
+                document.getElementById('body-temp').nextElementSibling.className = 'status status-normal';
+                document.getElementById('body-temp').nextElementSibling.textContent = 'Normal';
             }
             
             document.getElementById('weight').textContent = (70 + Math.random() * 10).toFixed(1) + ' kg';
@@ -255,18 +660,25 @@
             if (glucose > 120) {
                 document.getElementById('glucose').nextElementSibling.className = 'status status-warning';
                 document.getElementById('glucose').nextElementSibling.textContent = 'Elevated';
+            } else {
+                document.getElementById('glucose').nextElementSibling.className = 'status status-normal';
+                document.getElementById('glucose').nextElementSibling.textContent = 'Normal';
             }
             
             document.getElementById('electrolytes').textContent = 'Normal';
 
             // Advanced
-            document.getElementById('cardiac-output').textContent = (4 + Math.random() * 2).toFixed(1) + ' L/min';
+            const cardiacOutput = (4 + Math.random() * 2).toFixed(1);
+            document.getElementById('cardiac-output').textContent = cardiacOutput + ' L/min';
             
             const stress = Math.floor(Math.random() * 100);
             document.getElementById('stress').textContent = stress + '/100';
             if (stress > 70) {
                 document.getElementById('stress').nextElementSibling.className = 'status status-warning';
                 document.getElementById('stress').nextElementSibling.textContent = 'High';
+            } else {
+                document.getElementById('stress').nextElementSibling.className = 'status status-normal';
+                document.getElementById('stress').nextElementSibling.textContent = 'Low';
             }
             
             document.getElementById('voice-breath').textContent = 'Normal';
@@ -274,10 +686,61 @@
             // Update timestamp
             const now = new Date();
             document.querySelector('#last-updated span').textContent = now.toLocaleString();
+            
+            // Update history arrays
+            hrHistory.push(heartRate);
+            hrHistory.shift();
+            
+            systolicHistory.push(systolic);
+            systolicHistory.shift();
+            
+            diastolicHistory.push(diastolic);
+            diastolicHistory.shift();
+            
+            spo2History.push(oxygen);
+            spo2History.shift();
+            
+            tempHistory.push(parseFloat(bodyTemp));
+            tempHistory.shift();
+            
+            glucoseHistory.push(glucose);
+            glucoseHistory.shift();
+            
+            cardiacHistory.push(parseFloat(cardiacOutput));
+            cardiacHistory.shift();
+            
+            stressHistory.push(stress);
+            stressHistory.shift();
+            
+            // Redraw charts
+            drawLineChart('hr-canvas', hrHistory, 60, 120, 'rgba(231, 76, 60, 0.7)');
+            drawDualLineChart('bp-canvas', systolicHistory, diastolicHistory, 60, 160, 'rgba(155, 89, 182, 0.7)', 'rgba(155, 89, 182, 0.3)');
+            drawLineChart('spo2-canvas', spo2History, 90, 100, 'rgba(52, 152, 219, 0.7)');
+            drawLineChart('temp-canvas', tempHistory, 36, 38, 'rgba(241, 196, 15, 0.7)');
+            drawLineChart('glucose-canvas', glucoseHistory, 70, 180, 'rgba(46, 204, 113, 0.7)');
+            drawLineChart('cardiac-canvas', cardiacHistory, 3, 7, 'rgba(155, 89, 182, 0.7)');
+            drawLineChart('stress-canvas', stressHistory, 0, 100, 'rgba(231, 76, 60, 0.7)');
         }
 
-        // Initial update
-        updateMockData();
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            setCanvasDimensions();
+            
+            // Redraw all charts
+            drawLineChart('hr-canvas', hrHistory, 60, 120, 'rgba(231, 76, 60, 0.7)');
+            drawDualLineChart('bp-canvas', systolicHistory, diastolicHistory, 60, 160, 'rgba(155, 89, 182, 0.7)', 'rgba(155, 89, 182, 0.3)');
+            drawLineChart('spo2-canvas', spo2History, 90, 100, 'rgba(52, 152, 219, 0.7)');
+            drawLineChart('temp-canvas', tempHistory, 36, 38, 'rgba(241, 196, 15, 0.7)');
+            drawLineChart('glucose-canvas', glucoseHistory, 70, 180, 'rgba(46, 204, 113, 0.7)');
+            drawLineChart('cardiac-canvas', cardiacHistory, 3, 7, 'rgba(155, 89, 182, 0.7)');
+            drawLineChart('stress-canvas', stressHistory, 0, 100, 'rgba(231, 76, 60, 0.7)');
+        });
+
+        // Initialize charts when the page loads
+        window.addEventListener('load', function() {
+            initializeCharts();
+            updateMockData(); // Initial data update
+        });
 
         // Update every 10 seconds
         setInterval(updateMockData, 10000);
